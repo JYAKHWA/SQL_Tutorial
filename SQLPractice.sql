@@ -280,7 +280,53 @@ INSERT INTO #TEMP_EMPLOYEE VALUES
   ('198', 'Kena', 'Brown');
  SELECT * FROM Errors;
 
- SAnjay Jyakhwa
+ UPDATE Errors     -----Value changed to make errors to change them with String functions.
+ SET LastName = 'White-eeee' 
+ WHERE EmployeeID = 175;
+ UPDATE Errors
+ SET FirstName = 'Kena aa'
+ WHERE EmployeeID = 198;
+ 
+
+ SELECT EmployeeID, TRIM (EmployeeID) AS 'Trimmed IDs'          ----TRIM removes all the blank spaces, while LTRIM & RTRIM to the left & right resp.--------
+ FROM Errors
+ 
+ SELECT * FROM Errors;
+
+----Replace-------------
+SELECT LastName, REPLACE ( LastName, '-eeee', '') AS 'Original_Last_Name'
+FROM Errors;
+SELECT FirstName, REPLACE (FirstName, ' aa', '') AS 'Original_Last_Name'
+FROM Errors;
+ 
+ -----------Substring-------------- Extract characters from a String.
+ SELECT SUBSTRING (FirstName, 1, 4) AS 'Extracted String'
+ FROM Errors;
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
