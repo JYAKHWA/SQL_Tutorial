@@ -304,18 +304,87 @@ FROM Errors;
  FROM Errors;
 
  
-
-
-
-
-
-
-
-
-
-
-
+ /*-------------------------------------STORED PROCEDURES---------------------------*/
+ --------------------------------------------------------------------------------------
+ CREATE PROCEDURE NSALV
+ AS
+ SELECT * 
+ FROM EmployeeDetail
+ Go;
  
+ EXEC NSALV;
+
+CREATE PROCEDURE TEMPO_EMPLOYEE   --------[Test the function with previous Temp Table created---------
+AS
+CREATE TABLE  #TEMPO_EMPLOYEE (
+Emp_ID INT NOT NULL PRIMARY KEY,
+First_Name VARCHAR (50) NOT NULL,
+Last_Name VARCHAR (50) NOT NULL,
+Position VARCHAR (50) NOT NULL,
+Salary INT NOT NULL
+);
+INSERT INTO #TEMPO_EMPLOYEE
+SELECT Position, COUNT (Position), AVG (Age), AVG (Salary)
+FROM EmployeeDetail det
+JOIN Salary sal
+ON det.Emp_ID = sal.Emp_ID
+GROUP BY Position;
+
+SELECT * 
+FROM #TEMPO_EMPLOYEE;
+ 
+ EXEC TEMPO_EMPLOYEE;
+
+ ------------ERROR-----------
+ /*------------------------------------------ SUBQUERIES-------[Query inside query]------------------------------------------------*/
+ ----------------------------------------------------------------------------------------------------------------
+ SELECT * FROM Salary;
+
+ SELECT Emp_ID, Position, Salary, (SELECT AVG (Salary) FROM Salary) AS 'Total Average Salary'
+ FROM Salary;
+
+  -------------------Partition BY-------------
+ SELECT Emp_ID, Position, Salary,  AVG (Salary) OVER () AS 'Total Average Salary'
+ FROM Salary;
+
+ ----------GROUP BY [Doesnt Work with GROUP BY]----------------
+ SELECT Emp_ID, Position, Salary, AVG (Salary)  AS 'Total Average Salary'
+ FROM Salary
+ GROUP BY Emp_ID, Position, Salary, AVG (Salary)
+ ORDER BY 1, 2;
+
+ ---------------------FROM--------------
+ SELECT sal.Emp_ID, sal.[Total Average Salary]
+ FROM ( SELECT Emp_ID, Position, Salary, AVG (Salary) OVER () AS 'Total Average Salary'
+		FROM Salary ) sal;
+
+ -----------------WHERE--------------[Joim 2 tables]
+ SELECT Emp_ID, Position, Salary
+ FROM Salary
+ WHERE Emp_ID IN (SELECT Emp_ID, FirstName, LastName FROM EmployeeDetail
+					WHERE Age >30);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
